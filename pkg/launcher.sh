@@ -25,16 +25,16 @@ if [ "$JAVA_VERSION" != "1.8" ]; then
 fi
 
 # Auto-detect PCSC library for smart card support
-JAVA_ARGS=""
+JAVA_ARGS="-Djava.security.manager=allow"
 if command -v pkg-config >/dev/null 2>&1; then
     PCSC_LIB=$(pkg-config --variable=libdir libpcsclite 2>/dev/null)/libpcsclite.so.1
     if [ -n "$PCSC_LIB" ] && [ -r "$PCSC_LIB" ]; then
-        JAVA_ARGS="-Dsun.security.smartcardio.library=$PCSC_LIB"
+        JAVA_ARGS="$JAVA_ARGS -Dsun.security.smartcardio.library=$PCSC_LIB"
     fi
 elif [ -f /usr/lib/x86_64-linux-gnu/libpcsclite.so.1 ]; then
-    JAVA_ARGS="-Dsun.security.smartcardio.library=/usr/lib/x86_64-linux-gnu/libpcsclite.so.1"
+    JAVA_ARGS="$JAVA_ARGS -Dsun.security.smartcardio.library=/usr/lib/x86_64-linux-gnu/libpcsclite.so.1"
 elif [ -f /usr/lib64/libpcsclite.so.1 ]; then
-    JAVA_ARGS="-Dsun.security.smartcardio.library=/usr/lib64/libpcsclite.so.1"
+    JAVA_ARGS="$JAVA_ARGS -Dsun.security.smartcardio.library=/usr/lib64/libpcsclite.so.1"
 fi
 
 # Run NCALayer

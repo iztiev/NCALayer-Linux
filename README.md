@@ -136,6 +136,14 @@ ncalayer-install-certs
 - Никаких зависимостей (всё включено, в том числе Java 8)
 - Работает на любом дистрибутиве Linux с glibc
 
+## Совместимость с новыми версиями Java
+
+NCALayer разработан для Java 8 и лучше всего работает с этой версией. Однако, если у вас установлена более новая версия Java (17+), приложение включает флаг `-Djava.security.manager=allow` для обхода проблемы с устаревшим Security Manager.
+
+**Важно:** Начиная с Java 18, Security Manager отключен по умолчанию, а с JDK 24 - полностью удален ([JEP 411](https://openjdk.org/jeps/411)). При использовании Java 17+ вы можете увидеть предупреждение, но приложение должно работать.
+
+Для лучшей совместимости рекомендуется использовать Java 8. Подробнее о проблеме: https://stackoverflow.com/questions/76151072/error-during-sbt-launcher-java-lang-unsupportedoperationexception-the-security
+
 ## Сборка из исходников
 
 Инструкции по сборке пакетов из исходного кода смотрите в [BUILD.md](BUILD.md).
