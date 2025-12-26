@@ -96,6 +96,7 @@ license=('MIT')
 depends=('java-runtime=8' 'nss')
 optdepends=('pcsclite: Smart card support')
 makedepends=('wget' 'unzip' 'make')
+install=ncalayer.install
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ZhymabekRoman/NCALayer-Linux/archive/refs/tags/v${pkgver}.tar.gz")
 sha256sums=('SHA256_PLACEHOLDER')
 
@@ -146,6 +147,12 @@ sed -i "s/SHA256_PLACEHOLDER/${SOURCE_SHA256}/" PKGBUILD
 echo -e "${GREEN}✓ PKGBUILD created${NC}"
 echo ""
 
+# Copy .install file
+echo "Copying ncalayer.install file..."
+cp ../pkg/ncalayer.install .
+echo -e "${GREEN}✓ ncalayer.install copied${NC}"
+echo ""
+
 # Step 5: Generate .SRCINFO
 echo "Step 5: Generating .SRCINFO..."
 makepkg --printsrcinfo > .SRCINFO
@@ -181,7 +188,7 @@ fi
 
 echo ""
 echo "Committing changes..."
-git add PKGBUILD .SRCINFO
+git add PKGBUILD .SRCINFO ncalayer.install
 git commit -m "Update to version ${VERSION}
 
 - Package version: ${VERSION}
