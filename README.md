@@ -35,7 +35,8 @@ certutil=`whereis -b certutil | grep -i bin |  cut -d' ' -f2`;
 
 - **Arch Linux**: `ncalayer-*.pkg.tar.zst`
 - **Debian/Ubuntu**: `ncalayer_*.deb`
-- **Fedora/RHEL/CentOS**: `ncalayer-*.rpm`
+- **Fedora** (с встроенной Java): `ncalayer-*fc*.rpm` (~260 МБ)
+- **RHEL/CentOS/Rocky** (системная Java): `ncalayer-*el*.rpm` (~12 МБ)
 - **AppImage** (универсальный): `NCALayer-x86_64.AppImage`
 
 ### Arch Linux
@@ -61,8 +62,16 @@ sudo apt-get install -f  # Установит зависимости, если �
 
 ### Fedora/RHEL/CentOS
 
+**Fedora** (с встроенной Java 8):
 ```bash
-sudo dnf install ncalayer-*.rpm
+sudo dnf install ncalayer-*fc*.rpm
+```
+
+**Примечание:** Fedora не включает Java в официальные репозитории ([подробнее](https://docs.fedoraproject.org/en-US/quick-docs/installing-java/)). Поэтому для Fedora используется пакет со встроенной Java 8 (~260 МБ).
+
+**RHEL/CentOS/Rocky Linux** (системная Java 8):
+```bash
+sudo dnf install ncalayer-*el*.rpm
 ```
 
 ### AppImage (универсальный формат)

@@ -11,7 +11,7 @@ APPIMAGE_NAME = NCALayer-x86_64.AppImage
 APPDIR = NCALayer.AppDir
 APPIMAGETOOL_URL = https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
 
-.PHONY: all download verify clean appimage extract extract-jar build-appimage clean-appimage help clean-all install-certs pkg-arch pkg-deb pkg-rpm clean-pkg
+.PHONY: all download verify clean appimage extract extract-jar build-appimage clean-appimage help clean-all install-certs pkg-arch pkg-deb pkg-rpm pkg-rpm-fedora clean-pkg
 
 all: download verify
 
@@ -215,12 +215,20 @@ pkg-deb:
 	@dpkg-buildpackage -us -uc -b
 
 pkg-rpm:
-	@echo "Building RPM package..."
-	@if [ ! -f pkg/ncalayer.spec ]; then \
-		echo "Error: pkg/ncalayer.spec not found"; \
+	@echo "Building RPM package (RHEL/CentOS - system Java)..."
+	@if [ ! -f pkg/ncalayer-rhel.spec ]; then \
+		echo "Error: pkg/ncalayer-rhel.spec not found"; \
 		exit 1; \
 	fi
-	@rpmbuild -ba pkg/ncalayer.spec
+	@rpmbuild -ba pkg/ncalayer-rhel.spec
+
+pkg-rpm-fedora:
+	@echo "Building RPM package (Fedora - bundled Java)..."
+	@if [ ! -f pkg/ncalayer-fedora.spec ]; then \
+		echo "Error: pkg/ncalayer-fedora.spec not found"; \
+		exit 1; \
+	fi
+	@rpmbuild -ba pkg/ncalayer-fedora.spec
 
 clean-pkg:
 	@echo "Cleaning package artifacts..."
