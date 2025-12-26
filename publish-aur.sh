@@ -20,7 +20,7 @@ NC='\033[0m' # No Color
 
 # Check if SSH key is set up for AUR
 echo "Checking AUR SSH access..."
-if ! ssh -T aur@aur.archlinux.org 2>&1 | grep -q "successfully authenticated"; then
+if ! ssh -T aur@aur.archlinux.org 2>&1 | grep -q "Welcome to AUR"; then
     echo -e "${RED}ERROR: Cannot authenticate with AUR via SSH${NC}"
     echo ""
     echo "Please add your SSH public key to AUR:"

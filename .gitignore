@@ -25,6 +25,10 @@ debian/files
 debian/*.debhelper*
 debian/*.substvars
 
+# AUR publishing artifacts
+aur-ncalayer/
+ncalayer-*.tar.gz
+
 # Keep templates (negation patterns)
 !AppRun.template
 !ncalayer.desktop.template
