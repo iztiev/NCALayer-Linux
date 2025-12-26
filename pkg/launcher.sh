@@ -4,7 +4,10 @@
 set -e
 
 # Find Java 8
-if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+# On Arch Linux, prefer Java 8 from /usr/lib/jvm/java-8-openjdk
+if [ -x "/usr/lib/jvm/java-8-openjdk/bin/java" ]; then
+    JAVA="/usr/lib/jvm/java-8-openjdk/bin/java"
+elif [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
     JAVA="$JAVA_HOME/bin/java"
 elif command -v java >/dev/null 2>&1; then
     JAVA="java"
