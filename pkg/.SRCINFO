@@ -1,0 +1,18 @@
+pkgbase = ncalayer
+	pkgdesc = NCALayer digital signature application for Kazakhstan PKI
+	pkgver = 1.2.0
+	pkgrel = 1
+	url = https://github.com/ZhymabekRoman/NCALayer-Linux
+	install = ncalayer.install
+	arch = x86_64
+	license = MIT
+	makedepends = wget
+	makedepends = unzip
+	makedepends = make
+	depends = java-runtime=8
+	depends = nss
+	optdepends = pcsclite: Smart card support
+	source = ncalayer-1.2.0.tar.gz::https://github.com/ZhymabekRoman/NCALayer-Linux/archive/v1.2.0.tar.gz
+	sha256sums = cfb08533c58ea5bc374c1f812780e3e9be6231999d23daab2a0d9fcf2fbcd0d5
+
+pkgname = ncalayer
