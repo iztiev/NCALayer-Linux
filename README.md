@@ -25,6 +25,7 @@ certutil=`whereis -b certutil | grep -i bin |  cut -d' ' -f2`;
  - Debian/Ubuntu
  - Arch Linux (via AUR)
  - Fedora/RedHat/CentOS
+ - NixOS (via [Nix Flakes]((https://wiki.nixos.org/wiki/Flakes/ru)))
  - AppImage (универсальный формат)
 
 ## Установка
@@ -74,6 +75,57 @@ sudo dnf install ncalayer-*fc*.rpm
 sudo dnf install ncalayer-*el*.rpm
 ```
 
+### NixOS
+
+**Примечание** Java 8 в репозитории NixOS не включает JavaFX. Поэтому для NixOS деривация собирается со встроенной в NCALayer Java 8.
+
+Добавьте `ncalayer` в ваш `flake.nix`
+
+```nix
+{
+  # Это не полная конфигурация NixOS, но тут видно как добавить конфигурацию ncalayer в ваш флейк.
+  description = "Ваш системный flake.nix (обычно находится в /etc/nixos/flake.nix)";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # Добавьте инпут сюда
+    ncalayer = {
+      url = "github:ZhymabekRoman/NCALayer-Linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, nixpkgs, ...}: {
+    nixosConfigurations = {
+      yourHost = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        modules = [
+          
+          # подключите модуль
+          inputs.ncalayer.nixosModules.default
+
+          # активируйте ncalayer
+          ({ pkgs, lib, ... }: {
+            programs.ncalayer {
+              enable = true;
+              installCerts = true; # Опционально. Автоматически установит сертификаты (по умолчанию false)
+              enableSmartCards = true; # Опционально. Устанавливает pcscd для поддержки смарт-карт (по умолчанию false)
+            };
+          })
+        ];
+      };
+    };
+  };
+}
+```
+
+Пересоберите систему
+```bash
+sudo nixos-rebuild switch --flake /путь/к/вашему/flake.nix
+```
+
 ### AppImage (универсальный формат)
 
 ```bash
@@ -85,7 +137,7 @@ AppImage не требует установки - работает на любо
 
 ## Запуск приложения
 
-### Пакеты дистрибутивов (deb/rpm/pkg.tar.zst)
+### Пакеты дистрибутивов (deb/rpm/pkg.tar.zst/NixOS)
 
 После установки запустите:
 ```bash
@@ -131,6 +183,11 @@ ncalayer-install-certs
 - **Включает встроенный Java 8 JRE** (не требует установки системной Java)
 - **certutil** (из пакета nss-tools)
 - Опционально: pcsc-lite для поддержки смарт-карт
+
+**NixOS**
+- **Nix Flakes** (см [NixOS Wiki](https://wiki.nixos.org/wiki/Flakes/ru))
+- **Включает встроенный Java 8 JRE** (не требует установки системной Java)
+- Включает все необходимые зависимости
 
 ### AppImage (размер ~103 МБ)
 - Никаких зависимостей (всё включено, в том числе Java 8)
