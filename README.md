@@ -90,10 +90,7 @@ sudo dnf install ncalayer-*el*.rpm
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Добавьте инпут сюда
-    ncalayer = {
-      url = "github:ZhymabekRoman/NCALayer-Linux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    ncalayer.url = "github:ZhymabekRoman/NCALayer-Linux";
   };
 
   outputs = { self, nixpkgs, ...}: {
