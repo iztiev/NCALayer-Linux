@@ -129,6 +129,9 @@
             # - Runs in background (&) to return control to terminal
             # - Forces X11 backend for Wayland compatibility
             # - Redirects stderr to suppress GTK warnings
+            # Find the compiled GSettings schema dir inside gtk3's store path at build time
+            GTK3_GSCHEMA_DIR=$(find ${gtk3}/share/gsettings-schemas -name "gschemas.compiled" -exec dirname {} \; | head -1)
+
             cat > $out/bin/${pname} << EOF
 #!/bin/bash
 export PATH="${lib.makeBinPath [ nss.tools ]}:\$PATH"
@@ -136,6 +139,8 @@ export LD_LIBRARY_PATH="${lib.makeLibraryPath [ gtk3 gtk2 gdk-pixbuf cairo pango
 export GTK_PATH="${gtk3}/lib/gtk-3.0"
 export GDK_PIXBUF_MODULE_FILE="${gdk-pixbuf}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
 export GDK_BACKEND=x11
+export GSETTINGS_BACKEND=memory
+export GSETTINGS_SCHEMA_DIR="$GTK3_GSCHEMA_DIR"
 unset WAYLAND_DISPLAY
 
 exec $out/lib/jre/bin/java \\
