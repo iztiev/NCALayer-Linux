@@ -13,7 +13,7 @@
       # because NixOS does not ship JavaFX with Java 8
       mkNCALayer = pkgs: with pkgs;
         let
-          version = "1.2.0";
+          version = "1.2.1";
           pname = "ncalayer";
 
           # Download the official ncalayer.zip from Kazakhstan PKI
